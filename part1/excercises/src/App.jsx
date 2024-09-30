@@ -1,62 +1,39 @@
-const App = () => {
-  const course = {
-    name: 'Half Stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7
-      },
-      {
-        name: 'State of a component',
-        exercises: 14
-      }
-    ]
-  }
+import { useState } from 'react'
 
+const App = () => {
+  // guarda los clics de cada botón en su propio estado
+  const [good, setGood] = useState(0)
+  const [neutral, setNeutral] = useState(0)
+  const [bad, setBad] = useState(0)
+
+  const handleclickGood = () => {
+    setGood(good + 1)
+  }
+  const handleclickNeutral = () => {
+    setNeutral(neutral + 1)
+  }
+  const handleclickBad = () => {
+    setBad(bad + 1)
+  }
   return (
     <div>
-      <Header course={course.name} />
-      <Content parts={course.parts}
-      />
-      <Total parts={course.parts} />
+      <h1>give feedback</h1>
+      <div>
+        <button type="button" onClick={handleclickGood}>good</button>
+        <button type="button" onClick={handleclickNeutral}>neutral</button>
+        <button type="button" onClick={handleclickBad}>bad</button>
+
+      </div>
+      <h2>Statistics</h2>
+      <div>
+        <ul>
+          <li> <span>good</span> <span>{good}</span> </li>
+          <li> <span>neutral</span> <span>{neutral}</span> </li>
+          <li> <span>bad</span> <span>{bad}</span> </li>
+
+        </ul>
+      </div>
     </div>
-  )
-}
-
-const Header = (props) => {
-  return (
-    <h1>{props.course}</h1>
-  )
-}
-
-const Content = (props) => {
-  const parts = props.parts
-  return (
-    <>
-      <Part part={parts[0].name} exercises={parts[0].exercises1} />
-      <Part part={parts[1].name} exercises={parts[0].exercises2} />
-      <Part part={parts[2].name} exercises={parts[0].exercises3} />
-
-    </>
-  )
-}
-
-const Total = (props) => {
-  const parts = props.parts
-  return (
-    <p>Number of exercises {parts[0].exercises + parts[1].exercises + parts[2].exercises}</p>
-  )
-}
-
-const Part = (props) => {
-  return (
-    <p>
-      {props.part} {props.exercises}
-    </p>
   )
 }
 
