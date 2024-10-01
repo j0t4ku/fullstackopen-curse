@@ -1,109 +1,32 @@
 import { useState } from 'react'
 
 const App = () => {
-  // guarda los clics de cada botón en su propio estado
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
-  const [all, setAll] = useState(0)
-  const [average, setAverage] = useState(0)
-  const [positives, setPositives] = useState(0)
-  const [setscore, setSetscore] = useState(0)
+  const anecdotes = [
+    'If it hurts, do it more often.',
+    'Adding manpower to a late software project makes it later!',
+    'The first 90 percent of the code accounts for the first 10 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
+    'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
+    'Premature optimization is the root of all evil.',
+    'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
+    'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
+    'The only way to go fast, is to go well.'
+  ]
 
+  const [selected, setSelected] = useState(0)
 
-
-
-  const handleClick = (opt) => {
-    const updateAll = all + 1
-    let updateScore = setscore
-    if (opt === 'good') {
-      handleclickGood()
-      updateScore += 1
-      setSetscore(updateScore)
-
-    } else if (opt === 'neutral') {
-      handleclickNeutral()
-    } else if (opt === 'bad') {
-      updateScore -= 1
-      setSetscore(updateScore)
-      handleclickBad()
-    }
-    setAll(updateAll)
-    calculatePositive(updateAll)
-    calculateAverage(updateScore, updateAll)
-
-  }
-
-  const handleclickGood = () => {
-    const update = good + 1
-    setGood(update)
-  }
-  const handleclickNeutral = () => {
-    const update = neutral + 1
-    setNeutral(update)
-  }
-  const handleclickBad = () => {
-    const update = bad + 1
-    setBad(update)
-  }
-
-  const calculateAverage = (score, all) => {
-    setAverage(score / all)
-  }
-  const calculatePositive = (updateAll) => {
-    setPositives(((good * 100) / updateAll))
+  const handleClick = () => {
+    setSelected(Math.floor(Math.random() * anecdotes.length))
   }
 
   return (
     <div>
-      <h1>give feedback</h1>
-      <div>
-        <Buttons text='good' func={() => handleClick('good')} />
-        <Buttons text='neutral' func={() => handleClick('neutral')} />
-        <Buttons text='bad' func={() => handleClick('bad')} />
-
-      </div>
-
-      < Statistics good={good} neutral={neutral} bad={bad} all={all} average={average} positives={positives} />
+      <p>
+        {anecdotes[selected]}
+      </p>
+      <button type="button" onClick={handleClick}>next anecdotes</button>
 
     </div>
   )
-}
-
-
-const Statistics = ({ good, neutral, bad, all, average, positives }) => {
-  return <>
-    <h2>Statistics</h2>
-    <div>
-      {all == 0 ? <p>No feedback given</p> :
-        <table>
-          <tbody>
-            <StatisticLine text={"good"} value={good} />
-            <StatisticLine text={"neutral"} value={neutral} />
-            <StatisticLine text={"bad"} value={bad} />
-            <StatisticLine text={"all"} value={all} />
-            <StatisticLine text={"average"} value={average} />
-            <StatisticLine text={"positive"} value={positives} />
-          </tbody>
-        </table>
-      }
-    </div>
-  </>
-}
-
-
-const Buttons = ({ text, func }) => {
-  return (
-    <button type="button" onClick={func}>{text}</button>
-  )
-}
-
-const StatisticLine = ({ text, value }) => {
-  return <tr>
-    <td style={{ textAlign: 'left' }}>{text}</td>
-    <td>{value}</td>
-  </tr>
-
 }
 
 export default App
