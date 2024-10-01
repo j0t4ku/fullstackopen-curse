@@ -63,19 +63,26 @@ const App = () => {
         <button type="button" onClick={() => handleClick('bad')}>bad</button>
 
       </div>
-      <h2>Statistics</h2>
-      <div>
-        <ul>
-          <li> <span>good</span> <span>{good}</span> </li>
-          <li> <span>neutral</span> <span>{neutral}</span> </li>
-          <li> <span>bad</span> <span>{bad}</span> </li>
-          <li> <span>all</span> <span>{all.toString()}</span> </li>
-          <li> <span>average</span> <span>{average.toString()}</span> </li>
-          <li> <span>positive</span> <span>{positives.toString()}</span> </li>
-        </ul>
-      </div>
+      <Statistics good={good} neutral={neutral} bad={bad} all={all} average={average} positives={positives} />
     </div>
   )
+}
+
+
+const Statistics = ({ good, neutral, bad, all, average, positives }) => {
+  return <>
+    <h2>Statistics</h2>
+    <div>
+      <ul>
+        <li> <span>good</span> <span>{good}</span> </li>
+        <li> <span>neutral</span> <span>{neutral}</span> </li>
+        <li> <span>bad</span> <span>{bad}</span> </li>
+        <li> <span>all</span> <span>{all.toString()}</span> </li>
+        <li> <span>average</span> <span>{average.toString()}</span> </li>
+        <li> <span>positive</span> <span>{positives.toString()}</span> </li>
+      </ul>
+    </div>
+  </>
 }
 
 export default App
