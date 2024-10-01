@@ -76,14 +76,16 @@ const Statistics = ({ good, neutral, bad, all, average, positives }) => {
     <h2>Statistics</h2>
     <div>
       {all == 0 ? <p>No feedback given</p> :
-        <ul>
-          <StatisticLine text={"good"} value={good} />
-          <StatisticLine text={"neutral"} value={neutral} />
-          <StatisticLine text={"bad"} value={bad} />
-          <StatisticLine text={"all"} value={all} />
-          <StatisticLine text={"average"} value={average} />
-          <StatisticLine text={"positive"} value={positives} />
-        </ul>
+        <table>
+          <tbody>
+            <StatisticLine text={"good"} value={good} />
+            <StatisticLine text={"neutral"} value={neutral} />
+            <StatisticLine text={"bad"} value={bad} />
+            <StatisticLine text={"all"} value={all} />
+            <StatisticLine text={"average"} value={average} />
+            <StatisticLine text={"positive"} value={positives} />
+          </tbody>
+        </table>
       }
     </div>
   </>
@@ -97,9 +99,11 @@ const Buttons = ({ text, func }) => {
 }
 
 const StatisticLine = ({ text, value }) => {
-  return (
-    <li> <span>{text}</span> : <span>{value}</span> </li>
-  )
+  return <tr>
+    <td style={{ textAlign: 'left' }}>{text}</td>
+    <td>{value}</td>
+  </tr>
+
 }
 
 export default App
