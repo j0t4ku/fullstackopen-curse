@@ -3,6 +3,7 @@ import Content from './component/Content'
 import Filter from './component/Filter'
 import PersonForm from './component/PersonForm'
 import axios from 'axios'
+import { create, deletePerson, getAll, update } from './services/persons'
 
 const App = () => {
 
@@ -16,12 +17,15 @@ const App = () => {
   const [allPersons, setAllPersons] = useState(persons)
 
   useEffect(() => {
-    axios.
-      get('http://localhost:3001/persons')
-      .then((response) => {
-        setPersons(response.data)
-      })
+    actualizarPersons()
   }, [])
+
+  function actualizarPersons() {
+    getAll().then(data => {
+      setPersons(data)
+      setAllPersons(data)
+    })
+  }
 
   function handleName(e) {
     setNewName(e.target.value)
@@ -32,26 +36,60 @@ const App = () => {
 
   function handleFilter(e) {
     setFilter(e.target.value)
-    const regex = new RegExp(filter, 'i')
-    const filteredPersons = allPersons.filter(person => person.name.match(regex))
+    const regex = new RegExp(e.target.value, 'i')
+    const filteredPersons = persons.filter(person => person.name.match(regex))
     console.log(filteredPersons)
-    setPersons(filteredPersons)
+    setAllPersons(filteredPersons)
   }
 
   function addPerson(e) {
     e.preventDefault()
-    if (persons.some(person => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`)
-      return
-    }
+    const exist = persons.find(person => person.name === newName)
     const newObject = {
       name: newName,
       number: newPhone
     }
-    setPersons(persons.concat(newObject))
-    setAllPersons(allPersons.concat(newObject))
-    setNewName('')
-    setNewPhone('')
+    if (exist) {
+      if (confirm(`${exist.name} is already added to phonebook, replace the old number, with a new one?`)) {
+        console.log(exist.id)
+        update(exist.id, newObject)
+          .then(res => {
+            alert('Persons has updated')
+            actualizarPersons()
+          })
+        return
+      }
+      alert('Persons exist')
+      return
+    }
+    create(newObject)
+      .then(response => {
+        setPersons(persons.concat(newObject))
+        setAllPersons(allPersons.concat(newObject))
+        setNewName('')
+        setNewPhone('')
+      })
+
+
+  }
+
+  function handleDelete(id) {
+    const index = persons.find(person => person.id === id)
+    console.log(index)
+    if (index === -1) {
+      alert('Person doest exist')
+      return
+    }
+    if (confirm(`You want to delete ${index.name}?`)) {
+      deletePerson(id)
+        .then(response => {
+          actualizarPersons()
+          alert('Deleted')
+        })
+        .catch(err => alert('Error to delete'))
+
+    }
+    return
 
   }
 
@@ -62,7 +100,7 @@ const App = () => {
       <h2>add a new</h2>
       <PersonForm addPerson={addPerson} newName={newName} newPhone={newPhone} handleName={handleName} handlePhone={handlePhone} />
       <h2>Numbers</h2>
-      <Content persons={persons} />
+      <Content persons={allPersons} handleDelete={handleDelete} />
     </div>
   )
 }
