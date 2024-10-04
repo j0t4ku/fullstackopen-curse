@@ -4,6 +4,7 @@ import Filter from './component/Filter'
 import PersonForm from './component/PersonForm'
 import axios from 'axios'
 import { create, deletePerson, getAll, update } from './services/persons'
+import { Notification } from './component/Notification'
 
 const App = () => {
 
@@ -15,6 +16,7 @@ const App = () => {
   const [filter, setFilter] = useState('')
 
   const [allPersons, setAllPersons] = useState(persons)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     actualizarPersons()
@@ -54,12 +56,15 @@ const App = () => {
         console.log(exist.id)
         update(exist.id, newObject)
           .then(res => {
-            alert('Persons has updated')
             actualizarPersons()
+            alertMessege(`Person '${res.name}' was updated`, "updated")
+          })
+          .catch(e => {
+            alertMessege(`Person '${newObject.name}' was already removed from server`, "error")
           })
         return
       }
-      alert('Persons exist')
+      alertMessege(`Person '${newObject.name}' was already removed from server`, "error")
       return
     }
     create(newObject)
@@ -68,9 +73,20 @@ const App = () => {
         setAllPersons(allPersons.concat(newObject))
         setNewName('')
         setNewPhone('')
+        alertMessege(`${response.name} has created`, "success")
       })
 
+  }
 
+  function alertMessege(mess, tipo) {
+    console.log(tipo)
+    const newMessage = { message: mess, tipo: tipo }
+    setErrorMessage(
+      newMessage
+    )
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
   }
 
   function handleDelete(id) {
@@ -84,7 +100,7 @@ const App = () => {
       deletePerson(id)
         .then(response => {
           actualizarPersons()
-          alert('Deleted')
+          alertMessege(`${response.name} has been deleted`, "error")
         })
         .catch(err => alert('Error to delete'))
 
@@ -96,6 +112,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={errorMessage} />
       <Filter filter={filter} handleFilter={handleFilter}></Filter>
       <h2>add a new</h2>
       <PersonForm addPerson={addPerson} newName={newName} newPhone={newPhone} handleName={handleName} handlePhone={handlePhone} />
