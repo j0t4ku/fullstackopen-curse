@@ -3,6 +3,8 @@ const app = express()
 var morgan = require('morgan')
 let { phonebook } = require('./const.js')
 
+app.use(express.static('dist'))
+
 app.use(express.json())
 
 app.use(morgan(function (tokens, req, res) {
@@ -78,7 +80,7 @@ app.get("/info", (req, res) => {
 
 
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
     console.log(`Listening on port: http://localhost:${PORT}`)
 })
