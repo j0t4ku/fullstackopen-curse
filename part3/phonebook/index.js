@@ -43,23 +43,20 @@ app.get("/api/persons/:id", (req, res) => {
 })
 
 app.post("/api/persons", (req, res) => {
-    const person = req.body
-    const maxId = Math.floor(Math.random() * 1000)
-    if (!person.name || !person.number) {
+    const data = req.body
+    if (!data.name || !data.number) {
         return res.status(400).json({
             error: 'Name or number is missing'
         })
     }
-    if (phonebook.some(p => p.name === person.name)) {
-        return res.status(400).json({
-            error: 'Name already exist'
-        })
-    }
 
-    person.id = maxId
-    phonebook = phonebook.concat(person)
-    console.log(person)
-    res.json(person)
+    const person = new Person({
+        name: data.name,
+        number: data.name
+    })
+    person.save().then(personSaved => {
+        res.json(personSaved)
+    })
 })
 
 
