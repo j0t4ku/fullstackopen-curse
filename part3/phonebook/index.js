@@ -1,7 +1,11 @@
 const express = require('express')
 const app = express()
 var morgan = require('morgan')
+
+const Person = require('./models/person')
+
 let { phonebook } = require('./const.js')
+const { default: mongoose } = require('mongoose')
 
 app.use(express.static('dist'))
 
@@ -25,17 +29,16 @@ app.get("/", (req, res) => {
 })
 
 app.get("/api/persons", (req, res) => {
-    res.json(phonebook)
+    Person.find({}).then((persons) => {
+        res.json(persons)
+    })
 })
 
 app.get("/api/persons/:id", (req, res) => {
-    const id = Number(req.params.id)
-    const person = phonebook.find(p => p.id === id)
-    if (person) {
+    const id = String(req.params.id)
+    const person = Person.findById(id).then((person) => {
         res.json(person)
-    } else {
-        res.status(404).end()
-    }
+    })
 
 })
 
