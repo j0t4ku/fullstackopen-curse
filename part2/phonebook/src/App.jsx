@@ -67,6 +67,7 @@ const App = () => {
       alertMessege(`Person '${newObject.name}' was already removed from server`, "error")
       return
     }
+
     create(newObject)
       .then(response => {
         setPersons(persons.concat(newObject))
@@ -74,6 +75,9 @@ const App = () => {
         setNewName('')
         setNewPhone('')
         alertMessege(`${response.name} has created`, "success")
+      }).catch((error) => {
+        console.log(error.response.data.error)
+        alertMessege(`${error.response.data.error} `, "error")
       })
 
   }
