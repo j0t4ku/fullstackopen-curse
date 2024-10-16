@@ -52,7 +52,7 @@ app.post("/api/persons", (req, res, next) => {
 
     const person = new Person({
         name: data.name,
-        number: data.name
+        number: data.number
     })
     person.save()
         .then(personSaved => {
