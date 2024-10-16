@@ -62,10 +62,18 @@ app.post("/api/persons", (req, res) => {
 
 
 app.delete('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    console.log(typeof (phonebook))
-    phonebook = phonebook.filter(person => person.id !== id)
-    response.status(204).end()
+    const body = request.body
+
+    const person = {
+        name: body.content,
+        number: body.important,
+    }
+
+    Person.findByIdAndUpdate(request.params.id, person, { new: true })
+        .then(updatedNote => {
+            response.json(updatedNote)
+        })
+        .catch(error => next(error))
 })
 
 app.get("/info", (req, res) => {
