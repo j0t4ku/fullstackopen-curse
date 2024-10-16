@@ -42,7 +42,7 @@ app.get("/api/persons/:id", (req, res) => {
 
 })
 
-app.post("/api/persons", (req, res) => {
+app.post("/api/persons", (req, res, next) => {
     const data = req.body
     if (!data.name || !data.number) {
         return res.status(400).json({
@@ -54,9 +54,24 @@ app.post("/api/persons", (req, res) => {
         name: data.name,
         number: data.name
     })
-    person.save().then(personSaved => {
-        res.json(personSaved)
-    })
+    person.save()
+        .then(personSaved => {
+            res.json(personSaved)
+        })
+        .catch((error) => next(error));
+})
+
+app.put("/api/persons/:id", (req, res, next) => {
+    const { name, number } = req.body
+    Person.findByIdAndUpdate(
+        req.params.id,
+        { name, number },
+        { new: true, runValidators: true, context: "query" }
+    )
+        .then((updatedPerson) => {
+            res.json(updatedPerson)
+        })
+        .catch((error) => next(error))
 })
 
 
@@ -77,18 +92,25 @@ app.delete('/api/persons/:id', (request, response, next) => {
 })
 
 app.get("/info", (req, res) => {
-    const currentDate = new Date().toLocaleString();
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
-    const total = phonebook.length
-    const html = `<p>Phonebook has info for ${total} people</p>
-                    <p> ${currentDate} (${timeZone})</p>
-    `
-    res.send(html)
+    Person.find({})
+        .then((pepol) => {
+            res.send((
+                `<p>Phonebook has info for ${people.length
+                } people</p><p>${new Date()}</p>`
+            ))
+        })
+        .catch((error) => next(error))
 })
 
 
 
 // Middleware Errors
+
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: "unknown endpoint" });
+};
+
+app.use(unknownEndpoint);
 
 const errorHandler = (error, request, response, next) => {
     console.error(error.message)
