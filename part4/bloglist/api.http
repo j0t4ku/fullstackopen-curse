@@ -2,17 +2,17 @@
 
 #### Test GEt
 
-GET http://localhost:3003/api/blogs
+GET http://localhost:3001/api/blogs
 
 
 #### Test Post
 
-POST  http://localhost:3003/api/blogs
+POST  http://localhost:3001/api/blogs
 Content-Type: application/json
 
 {
-    "title":"nose",
-    "autor":"nose",
-    "url": "nose",
+    "title":"juan a caballo",
+    "autor":"german",
+    "url": "german.com",
     "likes": 1
 }
