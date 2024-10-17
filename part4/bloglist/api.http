@@ -1,0 +1,18 @@
+#### Testing api endpoints
+
+#### Test GEt
+
+GET http://localhost:3003/api/blogs
+
+
+#### Test Post
+
+POST  http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title":"nose",
+    "autor":"nose",
+    "url": "nose",
+    "likes": 1
+}
