@@ -17,3 +17,16 @@ describe("Total Likes", () => {
         assert.strictEqual(result, 36)
     })
 })
+
+describe("Favorite Blog ", () => {
+
+    test("favoriteBlog", () => {
+        const compare = {
+            title: "Canonical string reduction",
+            author: "Edsger W. Dijkstra",
+            likes: 12
+        }
+        const result = listHelper.favoriteBlog(blogList)
+        assert.deepStrictEqual(result, compare)
+    })
+})
