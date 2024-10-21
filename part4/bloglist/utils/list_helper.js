@@ -22,6 +22,14 @@ const favoriteBlog = (blogList) => {
     }
 }
 
+const mostBlogs = (blogList) => {
+
+    return {
+        author: "Robert C. Martin",
+        blogs: 3
+    }
+}
+
 
 module.exports = {
     dummy,

@@ -4,9 +4,9 @@
   "description": "exercise for part 4 ",
   "main": "index.js",
   "scripts": {
-    "test": "node  --test",
-    "start": "node index.js",
-    "dev": "node  --watch index.js"
+    "test": "NODE_ENV=test node  --test",
+    "start": "NODE_ENV=production node index.js",
+    "dev": "NODE_ENV=development node  --watch index.js"
   },
   "author": "j0t4ku",
   "license": "ISC",
@@ -15,5 +15,8 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "mongoose": "^8.7.2"
+  },
+  "devDependencies": {
+    "supertest": "^7.0.0"
   }
 }
