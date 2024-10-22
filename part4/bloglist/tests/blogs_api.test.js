@@ -1,42 +1,36 @@
-const { test, after, beforeEach } = require('node:test')
+const { test, after, beforeEach, describe, it } = require('node:test')
 const assert = require('node:assert')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blogs')
-
-const blogs = require('../utils/const')//inital values blogs
+const helper = require('./blogs_helper')
 
 
 const api = supertest(app)
 
 beforeEach(async () => {
     await Blog.deleteMany({})
-    let blogObject = new Blog(blogs[0])
-    await blogObject.save()
-    blogObject = new Blog(blogs[1])
-    await blogObject.save()
-    blogObject = new Blog(blogs[2])
-    await blogObject.save()
-    blogObject = new Blog(blogs[3])
-    await blogObject.save()
-    blogObject = new Blog(blogs[4])
-    await blogObject.save()
-    blogObject = new Blog(blogs[5])
-    await blogObject.save()
+    await Blog.insertMany(helper.initialBlogs)
 })
 
-test.only('Blogs are returned as json', async () => {
-    await api
-        .get('/api/blogs')
-        .expect(200)
-        .expect('Content-Type', /application\/json/)
-})
+describe('Exercise 4.8-4.12', () => {
+    test('Blogs are returned as json', async () => {
+        await api
+            .get('/api/blogs')
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+    })
 
-test.only('there are six blogs', async () => {
-    const response = await api.get('/api/blogs')
+    test('there are six blogs', async () => {
+        const response = await api.get('/api/blogs')
+        assert.strictEqual(response.body.length, helper.initialBlogs.length)
+    })
 
-    assert.strictEqual(response.body.length, 6)
+    test('blogs have to propety id', async () => {
+        const response = await api.get('/api/blogs')
+        assert(response.body.every((blog) => blog.hasOwnProperty('id')))
+    })
 })
 
 after(async () => {
