@@ -31,6 +31,25 @@ describe('Exercise 4.8-4.12', () => {
         const response = await api.get('/api/blogs')
         assert(response.body.every((blog) => blog.hasOwnProperty('id')))
     })
+
+    test('Valid blogs add', async () => {
+        const newBlog = {
+            title: "React ViteJs",
+            author: "Joe Chan",
+            url: "https://reactvite.com/",
+            likes: 1,
+        }
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(201)
+            .expect('Content-Type', /application\/json/)
+        const blogsAtEnd = await helper.blogsInDb()
+        assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length + 1)
+        const content = blogsAtEnd.map(n => n.title)
+        assert(content.includes('React ViteJs'))
+
+    })
 })
 
 after(async () => {
