@@ -67,6 +67,20 @@ describe('Exercise 4.8-4.12', () => {
         assert.strictEqual(blogsList.length, helper.initialBlogs.length + 1)
         assert.strictEqual(blogsList[blogsList.length - 1].likes, 0)
     })
+
+    test('Backend response 400 if title missing', async () => {
+        const newBlog = {
+            likes: 1,
+        }
+
+        await api.post('/api/blogs')
+            .send(newBlog)
+            .expect(400)
+
+        const blogsList = await helper.blogsInDb()
+        assert.strictEqual(blogsList.length, helper.initialBlogs.length)
+    })
+
 })
 
 after(async () => {
