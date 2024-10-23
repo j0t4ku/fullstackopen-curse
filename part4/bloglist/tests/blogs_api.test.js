@@ -50,6 +50,23 @@ describe('Exercise 4.8-4.12', () => {
         assert(content.includes('React ViteJs'))
 
     })
+
+
+    test('Likes property default to 0 if missing', async () => {
+        const newBlog = {
+            title: 'Title1',
+            author: 'Author1',
+            url: 'http://test.com'
+        }
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(201)
+            .expect('Content-Type', /application\/json/)
+        const blogsList = await helper.blogsInDb()
+        assert.strictEqual(blogsList.length, helper.initialBlogs.length + 1)
+        assert.strictEqual(blogsList[blogsList.length - 1].likes, 0)
+    })
 })
 
 after(async () => {
