@@ -80,7 +80,20 @@ describe('Exercise 4.8-4.12', () => {
         const blogsList = await helper.blogsInDb()
         assert.strictEqual(blogsList.length, helper.initialBlogs.length)
     })
+})
 
+describe('Delete of Blogs', () => {
+    test('Delete blog test', async () => {
+        const blogStart = await helper.blogsInDb()
+        const blogAtDelete = blogStart[0]
+        await api.delete(`/api/blogs/${blogAtDelete.id}`)
+            .expect(204)
+
+        const blogEnd = await helper.blogsInDb()
+        assert.strictEqual(blogEnd.length, helper.initialBlogs.length - 1)
+        const titles = blogEnd.map((blog) => blog.title);
+        assert(!titles.includes(blogStart[0].title))
+    })
 })
 
 after(async () => {
