@@ -96,6 +96,23 @@ describe('Delete of Blogs', () => {
     })
 })
 
+describe('Updating blog', () => {
+    test('updating blog return 200 ok', async () => {
+        const blogListStart = await helper.blogsInDb()
+        const blogAtUpdate = blogListStart[0]
+
+        await api.
+            put(`/api/blogs/${blogAtUpdate.id}`)
+            .send({ likes: 10 })
+            .expect(200)
+
+        const blogListEnd = await helper.blogsInDb()
+        const blogUpdated = blogListEnd[0]
+        assert.strictEqual(blogListStart.length, blogListEnd.length)
+        assert.strictEqual(blogUpdated.likes, 10)
+    })
+})
+
 after(async () => {
     await mongoose.connection.close()
 })
