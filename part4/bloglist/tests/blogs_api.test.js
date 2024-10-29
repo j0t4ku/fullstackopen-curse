@@ -15,6 +15,7 @@ beforeEach(async () => {
 })
 
 describe('Exercise 4.8-4.12', () => {
+
     test('Blogs are returned as json', async () => {
         await api
             .get('/api/blogs')
@@ -37,7 +38,7 @@ describe('Exercise 4.8-4.12', () => {
             title: "React ViteJs",
             author: "Joe Chan",
             url: "https://reactvite.com/",
-            likes: 1,
+            likes: 1
         }
         await api
             .post('/api/blogs')

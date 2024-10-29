@@ -12,7 +12,7 @@ Content-Type: application/json
 
 {
     "title":"juan a caballo",
-    "autor":"german",
+    "author":"german",
     "url": "german.com",
     "likes": 1
 }
