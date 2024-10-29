@@ -16,3 +16,18 @@ Content-Type: application/json
     "url": "german.com",
     "likes": 1
 }
+
+
+#### Test User Post
+
+POST  http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "username": "root",
+    "name": "Superuser",
+    "password": "salainen"
+}
+
+#### Test Get User
+GET http://localhost:3001/api/users
