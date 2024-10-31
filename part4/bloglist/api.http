@@ -22,7 +22,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb
 
 ### Test Delete Blog
 
-DELETE http://localhost:3001/api/blogs/67240c8da5559f9a1ff65ff8 HTTP/1.1
+DELETE http://localhost:3001/api/blogs/67240f37e15553fbeaa9f2d4 HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY3MjE3MzhjYmNmY2NiODE3NzQ0MzNmZiIsImlhdCI6MTczMDQxNTM1NSwiZXhwIjoxNzMwNDE4OTU1fQ.ObjF5ByDAiK0YbtLyBZ7WFLe2yV69XNFPX1XiQ-YThQ
 
 
