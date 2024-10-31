@@ -44,10 +44,18 @@ blogsRouter.post('/', async (request, response) => {
 
 blogsRouter.delete('/:id', async (req, res) => {
     const id = req.params.id
-
-    const blog = await Blog.findByIdAndDelete(id, { new: true })
-
-    res.status(204).json(blog)
+    const decodedToken = jwt.verify(req.token, process.env.SECRET)
+    if (!decodedToken.id) {
+        return response.status(401).json({ error: 'token invalid' })
+    }
+    const user = await User.findById(decodedToken.id)
+    const blogAtdelete = await Blog.findById(id)
+    if (blogAtdelete.user.toString() === user.id.toString()) {
+        const blogDelete = await Blog.findByIdAndDelete(id, { new: true });
+        res.status(200).json(blogDelete);
+    } else {
+        res.status(401).json({ error: "unauthorized operation" });
+    }
 
 })
 
