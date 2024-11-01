@@ -5,13 +5,24 @@ const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blogs')
 const helper = require('./blogs_helper')
+const User = require('../models/user')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
+const { config } = require('dotenv')
 
 
 const api = supertest(app)
+let token = null
 
 beforeEach(async () => {
     await Blog.deleteMany({})
+    await User.deleteMany({})
     await Blog.insertMany(helper.initialBlogs)
+    await User.deleteMany({});
+    const passwordHash = await bcrypt.hash("12345", 10);
+    const user = await new User({ username: "root", passwordHash }).save();
+    const userForToken = { username: "root", id: user.id };
+    token = jwt.sign(userForToken, process.env.SECRET)
 })
 
 describe('Exercise 4.8-4.12', () => {
@@ -33,6 +44,9 @@ describe('Exercise 4.8-4.12', () => {
         assert(response.body.every((blog) => blog.hasOwnProperty('id')))
     })
 
+})
+
+describe("Add to new blog", () => {
     test('Valid blogs add', async () => {
         const newBlog = {
             title: "React ViteJs",
@@ -42,6 +56,7 @@ describe('Exercise 4.8-4.12', () => {
         }
         await api
             .post('/api/blogs')
+            .set("Authorization", `Bearer ${token}`)
             .send(newBlog)
             .expect(201)
             .expect('Content-Type', /application\/json/)
@@ -61,6 +76,7 @@ describe('Exercise 4.8-4.12', () => {
         }
         await api
             .post('/api/blogs')
+            .set("Authorization", `Bearer ${token}`)
             .send(newBlog)
             .expect(201)
             .expect('Content-Type', /application\/json/)
@@ -75,23 +91,53 @@ describe('Exercise 4.8-4.12', () => {
         }
 
         await api.post('/api/blogs')
+            .set("Authorization", `Bearer ${token}`)
             .send(newBlog)
             .expect(400)
 
         const blogsList = await helper.blogsInDb()
         assert.strictEqual(blogsList.length, helper.initialBlogs.length)
     })
+    test('Backend response 401 if Unauthorized ', async () => {
+        const newBlog = {
+            likes: 1,
+        }
+
+        await api.post('/api/blogs')
+            .send(newBlog)
+            .expect(401)
+
+        const blogsList = await Blog.find({}).populate("user")
+        assert.strictEqual(blogsList.length, helper.initialBlogs.length)
+    })
+
 })
 
 describe('Delete of Blogs', () => {
+    beforeEach(async () => {
+        await Blog.deleteMany({})
+        const newBlog = {
+            title: 'Title1',
+            author: 'Author1',
+            url: 'http://test.com'
+        }
+        await api
+            .post('/api/blogs')
+            .set("Authorization", `Bearer ${token}`)
+            .send(newBlog)
+            .expect(201)
+            .expect('Content-Type', /application\/json/)
+    })
+
     test('Delete blog test', async () => {
         const blogStart = await helper.blogsInDb()
-        const blogAtDelete = blogStart[0]
-        await api.delete(`/api/blogs/${blogAtDelete.id}`)
-            .expect(204)
-
+        const blogAtDelete = blogStart[blogStart.length - 1]
+        await api
+            .delete(`/api/blogs/${blogAtDelete.id}`)
+            .set("Authorization", `Bearer ${token}`)
+            .expect(200)
         const blogEnd = await helper.blogsInDb()
-        assert.strictEqual(blogEnd.length, helper.initialBlogs.length - 1)
+        assert.strictEqual(blogEnd.length, blogStart.length - 1)
         const titles = blogEnd.map((blog) => blog.title);
         assert(!titles.includes(blogStart[0].title))
     })

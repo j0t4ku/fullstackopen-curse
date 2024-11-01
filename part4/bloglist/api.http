@@ -9,7 +9,7 @@ GET http://localhost:3001/api/blogs
 
 POST  http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY3MjE3MzhjYmNmY2NiODE3NzQ0MzNmZiIsImlhdCI6MTczMDQxNTM1NSwiZXhwIjoxNzMwNDE4OTU1fQ.ObjF5ByDAiK0YbtLyBZ7WFLe2yV69XNFPX1XiQ-YThQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY3MjU1ZDc4YmNjM2UxMTQxNjI5MjRlMSIsImlhdCI6MTczMDUwMjEwMSwiZXhwIjoxNzMwNTA1NzAxfQ.sp9mWi25gTT3OOpHf5Oku-9kXD9qzvN4-w9fGozyx4s
 
 
 {
@@ -22,8 +22,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb
 
 ### Test Delete Blog
 
-DELETE http://localhost:3001/api/blogs/67240f37e15553fbeaa9f2d4 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY3MjE3MzhjYmNmY2NiODE3NzQ0MzNmZiIsImlhdCI6MTczMDQxNTM1NSwiZXhwIjoxNzMwNDE4OTU1fQ.ObjF5ByDAiK0YbtLyBZ7WFLe2yV69XNFPX1XiQ-YThQ
+DELETE http://localhost:3001/api/blogs/67255df6945934a693e4812d HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY3MjU1ZDc4YmNjM2UxMTQxNjI5MjRlMSIsImlhdCI6MTczMDUwMjEwMSwiZXhwIjoxNzMwNTA1NzAxfQ.sp9mWi25gTT3OOpHf5Oku-9kXD9qzvN4-w9fGozyx4s
 
 
 #### Test User Post
@@ -34,7 +34,7 @@ Content-Type: application/json
 {
     "username": "root",
     "name": "Superuser",
-    "password": "salainen"
+    "password": "12345"
 }
 
 #### Test Get User
@@ -49,5 +49,5 @@ Content-Type: application/json
 
 {
     "username": "root",
-    "password": "salainen"
+    "password": "12345"
 }
