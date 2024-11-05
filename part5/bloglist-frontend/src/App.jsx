@@ -26,7 +26,17 @@ const App = () => {
   }, [])
 
   const createBlog = async (title, author, url) => {
-
+    try {
+      const blog = await blogService.create({
+        title,
+        author,
+        url,
+      });
+      setBlogs(blogs.concat(blog));
+      setMessage(`A new blog ${title} by ${author} added`);
+    } catch (exception) {
+      setMessage("error" + exception.response.data.error);
+    }
   };
 
   const handleLogin = async (event) => {
@@ -94,7 +104,7 @@ const App = () => {
 
   const logoutForm = () => {
     return (
-      <div>
+      <div style={{ paddingBottom: "5px" }}>
         <h1>Blogs</h1>
         <p>{user.username} logged in </p>
         <button onClick={handleLogout}>logout</button>
@@ -105,6 +115,7 @@ const App = () => {
   const blogForm = () => {
     return (
       <div>
+        <h1>Create New Blog</h1>
         <form onSubmit={handleCreateBlog}>
           <div>
             title
