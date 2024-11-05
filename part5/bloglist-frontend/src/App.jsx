@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Notifications from './components/Notifications'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -10,6 +11,16 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState(null);
   const [user, setUser] = useState(null)
+
+  // for notification
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMessage(null);
+    }, 5000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [message]);
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -157,6 +168,7 @@ const App = () => {
     <div>
       {user === null && loginForm()}
       {user !== null && logoutForm()}
+      <Notifications message={message} />
       {user !== null && blogForm()}
       <div>
         <h2>blogs</h2>
