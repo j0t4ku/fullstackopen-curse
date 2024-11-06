@@ -3,6 +3,8 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Notifications from './components/Notifications'
+import Togglable from './components/Togglable'
+import BlogForm from './components/BlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -110,63 +112,23 @@ const App = () => {
     </form>
   )
 
-  const logoutForm = () => {
-    return (
-      <div style={{ paddingBottom: "5px" }}>
-        <h1>Blogs</h1>
-        <p>{user.username} logged in </p>
-        <button onClick={handleLogout}>logout</button>
-      </div>
-    )
-  }
-
-  const blogForm = () => {
-    return (
-      <div>
-        <h1>Create New Blog</h1>
-        <form onSubmit={handleCreateBlog}>
-          <div>
-            title
-            <input
-              name="title"
-              type="text"
-              value={newBlog.title}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            author
-            <input
-              name="author"
-              type="text"
-              value={newBlog.author}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            url
-            <input
-              name="url"
-              type="text"
-              value={newBlog.url}
-              onChange={handleInputChange}
-            />
-          </div>
-          <button id="create-blog-btn" type="submit">
-            create
-          </button>
-
-        </form>
-      </div >
-    )
-  }
 
   return (
     <div>
-      {user === null && loginForm()}
-      {user !== null && logoutForm()}
+      {user === null ? loginForm()
+        :
+        <div>
+          <div style={{ paddingBottom: "5px" }}>
+            <h1>Blogs</h1>
+            <p>{user.username} logged in </p>
+            <button onClick={handleLogout}>logout</button>
+          </div>
+          <Togglable buttonLabel="new blog">
+            <BlogForm handleCreateBlog={handleCreateBlog} newBlog={newBlog} handleInputChange={handleInputChange} />
+          </Togglable>
+        </div>
+      }
       <Notifications message={message} />
-      {user !== null && blogForm()}
       <div>
         <h2>blogs</h2>
         {blogs.map(blog =>
