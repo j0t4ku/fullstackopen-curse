@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -8,7 +8,6 @@ import BlogForm from './components/BlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [newBlog, setNewBlog] = useState({ title: "", author: "", url: "" });
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState(null);
@@ -40,6 +39,7 @@ const App = () => {
 
   const createBlog = async (title, author, url) => {
     try {
+      blogFormRef.current.toggleVisibility()
       const blog = await blogService.create({
         title,
         author,
@@ -54,7 +54,6 @@ const App = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault()
-
     try {
       const user = await loginService.login({
         username, password,
@@ -71,15 +70,7 @@ const App = () => {
     }
   }
 
-  const handleCreateBlog = (event) => {
-    event.preventDefault();
-    createBlog(newBlog.title, newBlog.author, newBlog.url);
-    setNewBlog({ title: "", author: "", url: "" });
-  };
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setNewBlog({ ...newBlog, [name]: value });
-  };
+
 
   const handleLogout = () => {
     window.localStorage.clear();
@@ -112,6 +103,7 @@ const App = () => {
     </form>
   )
 
+  const blogFormRef = useRef();
 
   return (
     <div>
@@ -123,8 +115,8 @@ const App = () => {
             <p>{user.username} logged in </p>
             <button onClick={handleLogout}>logout</button>
           </div>
-          <Togglable buttonLabel="new blog">
-            <BlogForm handleCreateBlog={handleCreateBlog} newBlog={newBlog} handleInputChange={handleInputChange} />
+          <Togglable buttonLabel="new blog" ref={blogFormRef}>
+            <BlogForm createBlog={createBlog} />
           </Togglable>
         </div>
       }

@@ -1,4 +1,19 @@
-export default function BlogForm({ handleCreateBlog, newBlog, handleInputChange }) {
+import { useState } from "react";
+
+export default function BlogForm({ createBlog }) {
+    const [newBlog, setNewBlog] = useState({ title: "", author: "", url: "" });
+
+    const handleCreateBlog = (event) => {
+        event.preventDefault();
+        createBlog(newBlog.title, newBlog.author, newBlog.url);
+        setNewBlog({ title: "", author: "", url: "" });
+    };
+
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setNewBlog({ ...newBlog, [name]: value });
+    };
+
     return (
         <div>
             <h1>Create New Blog</h1>
