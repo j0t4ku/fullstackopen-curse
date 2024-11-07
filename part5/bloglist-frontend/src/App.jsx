@@ -10,18 +10,18 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [message, setMessage] = useState(null);
+  const [message, setMessage] = useState(null)
   const [user, setUser] = useState(null)
 
   // for notification
   useEffect(() => {
     const timer = setTimeout(() => {
-      setMessage(null);
-    }, 5000);
+      setMessage(null)
+    }, 5000)
     return () => {
-      clearTimeout(timer);
-    };
-  }, [message]);
+      clearTimeout(timer)
+    }
+  }, [message])
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -44,13 +44,13 @@ const App = () => {
         title,
         author,
         url,
-      });
-      setBlogs(blogs.concat(blog));
-      setMessage(`A new blog ${title} by ${author} added`);
+      })
+      setBlogs(blogs.concat(blog))
+      setMessage(`A new blog ${title} by ${author} added`)
     } catch (exception) {
-      setMessage("error" + exception.response.data.error);
+      setMessage('error' + exception.response.data.error)
     }
-  };
+  }
 
   const updateLikes = async (id, blogToUpdate) => {
 
@@ -61,7 +61,7 @@ const App = () => {
       )
       setBlogs(newBlogs)
     } catch (err) {
-      setMessage("error" + err.response.data)
+      setMessage('error' + err.response.data)
     }
   }
 
@@ -73,7 +73,7 @@ const App = () => {
       setMessage(`Blog: ${deletedBlog.title} has been remove`)
 
     } catch (exception) {
-      setMessage("error" + exception.response.data.error);
+      setMessage('error' + exception.response.data.error)
     }
   }
 
@@ -91,15 +91,15 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setMessage("error" + exception.response.data.error);
+      setMessage('error' + exception.response.data.error)
     }
   }
 
 
 
   const handleLogout = () => {
-    window.localStorage.clear();
-    setUser(null);
+    window.localStorage.clear()
+    setUser(null)
 
   }
 
@@ -128,14 +128,14 @@ const App = () => {
     </form>
   )
 
-  const blogFormRef = useRef();
+  const blogFormRef = useRef()
   console.log(blogs)
   return (
     <div>
       {user === null ? loginForm()
         :
         <div>
-          <div style={{ paddingBottom: "5px" }}>
+          <div style={{ paddingBottom: '5px' }}>
             <h1>Blogs</h1>
             <p>{user.username} logged in </p>
             <button onClick={handleLogout}>logout</button>

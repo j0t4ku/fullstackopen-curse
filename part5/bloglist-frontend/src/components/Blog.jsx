@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState } from 'react'
 
 const Blog = ({ blog, updateLikes, deleteBlogs, username }) => {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(false)
 
-  //functions 
+  //functions
   const toggleVisibility = () => {
-    setVisible(!visible);
-  };
+    setVisible(!visible)
+  }
 
   const handleLike = () => {
     const blogToUpdate = {
@@ -15,9 +15,9 @@ const Blog = ({ blog, updateLikes, deleteBlogs, username }) => {
       url: blog.url,
       likes: blog.likes + 1,
       user: blog.user.id,
-    };
-    updateLikes(blog.id, blogToUpdate);
-  };
+    }
+    updateLikes(blog.id, blogToUpdate)
+  }
 
   const handleRemove = (id) => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
@@ -26,7 +26,7 @@ const Blog = ({ blog, updateLikes, deleteBlogs, username }) => {
   }
 
 
-  //Styles 
+  //Styles
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -39,19 +39,19 @@ const Blog = ({ blog, updateLikes, deleteBlogs, username }) => {
       <div className="blog">
         <div>
           <span className="title">{blog.title} - </span>
-          <span className="author">{blog.author}</span>{" "}
+          <span className="author">{blog.author}</span>{' '}
           <button id="view-btn" onClick={toggleVisibility}>
-            {visible ? "hide" : "show"}
+            {visible ? 'hide' : 'show'}
           </button>
         </div>
         {visible && (
           <div className="blog-details">
             <div>{blog.url}</div>
             <div>
-              Likes: {blog.likes}{" "}
+              Likes: {blog.likes}{' '}
               <button id="like-btn" onClick={handleLike}>
                 like
-              </button>{" "}
+              </button>{' '}
             </div>
             <div>{blog.user.name}</div>
             <div>
