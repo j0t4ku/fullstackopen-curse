@@ -15,3 +15,9 @@
 .error {
     color: red;
 }
+
+.blog .remove {
+    background-color: red;
+    color: white;
+    /* Cambia el color del texto dentro del botón si es necesario */
+}
