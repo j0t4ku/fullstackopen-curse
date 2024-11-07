@@ -136,9 +136,11 @@ const App = () => {
       <Notifications message={message} />
       <div>
         <h2>blogs</h2>
-        {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} updateLikes={updateLikes} username={blog.user.username} />
-        )}
+        {blogs
+          .sort((a, b) => b.likes - a.likes)//Enumera las publicaciones de blog por el número de likes
+          .map(blog =>
+            <Blog key={blog.id} blog={blog} updateLikes={updateLikes} username={blog.user.username} />
+          )}
 
       </div>
     </div>
