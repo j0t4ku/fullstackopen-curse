@@ -53,9 +53,8 @@ const App = () => {
   };
 
   const updateLikes = async (id, blogToUpdate) => {
-    console.log(blogs)
+
     try {
-      console.log(blogToUpdate)
       const updateBlog = await blogService.update(id, blogToUpdate)
       const newBlogs = blogs.map((blog) =>
         blog.id === id ? updateBlog : blog
@@ -118,7 +117,7 @@ const App = () => {
   )
 
   const blogFormRef = useRef();
-
+  console.log(blogs)
   return (
     <div>
       {user === null ? loginForm()
@@ -138,7 +137,7 @@ const App = () => {
       <div>
         <h2>blogs</h2>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} updateLikes={updateLikes} />
+          <Blog key={blog.id} blog={blog} updateLikes={updateLikes} username={blog.user.username} />
         )}
 
       </div>
