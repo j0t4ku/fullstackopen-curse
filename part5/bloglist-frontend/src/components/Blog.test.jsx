@@ -17,7 +17,7 @@ describe('<Blog />', () => {
 
   let component
 
-  const likeMockHandler = vi.fn()
+  let likeMockHandler = vi.fn()
 
   beforeEach(() => {
     component = render(
@@ -49,6 +49,15 @@ describe('<Blog />', () => {
     expect(component.container.querySelector('#like-btn')).toBeVisible()
   })
 
+  test('likes button is clicked twice, event handler is  called twice', () => {
 
+    const button = component.container.querySelector('#view-btn')
+    fireEvent.click(button)
+    const likesButton = component.container.querySelector('#like-btn')
+    fireEvent.click(likesButton)
+    fireEvent.click(likesButton)
+
+    expect(likeMockHandler.mock.calls).toHaveLength(2)
+  })
 
 })
