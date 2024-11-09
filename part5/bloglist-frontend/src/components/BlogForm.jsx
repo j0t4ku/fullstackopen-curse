@@ -10,8 +10,8 @@ export default function BlogForm({ createBlog }) {
   }
 
   const handleInputChange = (event) => {
-    const { name, value } = event.target
-    setNewBlog({ ...newBlog, [name]: value })
+    const { id, value } = event.target
+    setNewBlog({ ...newBlog, [id]: value })
   }
 
   return (
@@ -21,7 +21,7 @@ export default function BlogForm({ createBlog }) {
         <div>
           title
           <input
-            name="title"
+            id="title"
             type="text"
             value={newBlog.title}
             onChange={handleInputChange}
@@ -30,7 +30,7 @@ export default function BlogForm({ createBlog }) {
         <div>
           author
           <input
-            name="author"
+            id="author"
             type="text"
             value={newBlog.author}
             onChange={handleInputChange}
@@ -39,7 +39,7 @@ export default function BlogForm({ createBlog }) {
         <div>
           url
           <input
-            name="url"
+            id="url"
             type="text"
             value={newBlog.url}
             onChange={handleInputChange}
