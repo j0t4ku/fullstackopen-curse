@@ -28,7 +28,7 @@ const App = () => {
     )
   }, [])
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
@@ -84,9 +84,10 @@ const App = () => {
         username, password,
       })
       window.localStorage.setItem(
-        'loggedNoteappUser', JSON.stringify(user)
+        'loggedBlogappUser', JSON.stringify(user)
       )
-      blogService.setToken(user.Token)
+      console.log(user)
+      blogService.setToken(user.token)
       setUser(user)
     } catch (exception) {
       setMessage('error' + exception.response.data.error)

@@ -21,6 +21,7 @@ export default function BlogForm({ createBlog }) {
         <div>
           title
           <input
+            name="title"
             id="title"
             type="text"
             value={newBlog.title}
@@ -30,6 +31,7 @@ export default function BlogForm({ createBlog }) {
         <div>
           author
           <input
+            name="author"
             id="author"
             type="text"
             value={newBlog.author}
@@ -39,13 +41,14 @@ export default function BlogForm({ createBlog }) {
         <div>
           url
           <input
+            name="url"
             id="url"
             type="text"
             value={newBlog.url}
             onChange={handleInputChange}
           />
         </div>
-        <button id="create-blog-btn" type="submit">
+        <button name="create-blog-btn" type="submit">
           create
         </button>
 
