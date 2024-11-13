@@ -48,7 +48,7 @@ const Blog = ({ blog, updateLikes, deleteBlogs, username }) => {
           <div className="blog-details">
             <div className='blog-url'>{blog.url}</div>
             <div className=''>
-              Likes: {blog.likes}{' '}
+              Likes: <span title='Nlikes'>{blog.likes}</span> {' '}
               <button className='likes-button' id="like-btn" onClick={handleLike}>
                 like
               </button>{' '}
