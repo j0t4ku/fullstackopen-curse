@@ -109,7 +109,7 @@ const App = () => {
           <div style={{ paddingBottom: '5px' }}>
             <h1>Blogs</h1>
             <p>{user.username} logged in </p>
-            <button onClick={handleLogout}>logout</button>
+            <button onClick={handleLogout} name='logout'>logout</button>
           </div>
           <Togglable buttonLabel="new blog" ref={blogFormRef}>
             <BlogForm createBlog={createBlog} />
