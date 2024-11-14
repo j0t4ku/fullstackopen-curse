@@ -127,7 +127,7 @@ const App = () => {
               key={blog.id}
               blog={blog}
               updateLikes={updateLikes}
-              username={blog.user.username}
+              username={user?.username || ''}
               deleteBlogs={deleteBlogs}
             />
           )}
