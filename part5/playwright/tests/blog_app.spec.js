@@ -14,6 +14,14 @@ describe('Blog app', () => {
         password: 'root123'
       }
     })
+    //Create user 2 for testing users
+    await request.post('http://localhost:3001/api/users', {
+      data: {
+        name: 'Admin',
+        username: 'admin',
+        password: 'admin123'
+      }
+    })
     //Go to page
     await page.goto('/')
   })
@@ -91,6 +99,24 @@ describe('Blog app', () => {
       await page.getByRole('button', { name: 'remove' }).click()
       await expect(page.getByText('Blog: Title 2 has been remove')).toBeVisible()
       await expect(page.getByText('Title 2 -')).not.toBeVisible()
+    })
+
+    test('only onewr blogs can see deleted button', async ({ page }) => {
+      await page.getByRole('button', { name: 'logout' }).click()
+      await loginWith(page, 'admin', 'admin123')
+      const newBlog = {
+        title: 'Blog For User 2',
+        author: 'admin',
+        url: '/admin-blog'
+      }
+      await createBlog(page, newBlog.title, newBlog.author, newBlog.url)
+      await expect(page.getByText('A new blog Blog For User 2 by')).toBeVisible()
+      await page.getByRole('button', { name: 'logout' }).click()
+      await loginWith(page, 'root', 'root123')
+      await expect(page.getByRole('button', { name: 'logout' })).toBeVisible()
+      const divBlog = await page.getByText('Blog For User 2 - admin show')
+      await divBlog.getByRole('button', { name: 'show' }).click()
+      await expect(divBlog.getByRole('button', { name: 'remove' })).not.toBeVisible()
     })
   })
 
