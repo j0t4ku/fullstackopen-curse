@@ -118,6 +118,41 @@ describe('Blog app', () => {
       await divBlog.getByRole('button', { name: 'show' }).click()
       await expect(divBlog.getByRole('button', { name: 'remove' })).not.toBeVisible()
     })
+
+    test('Blogs ordened by likes', async ({ page }) => {
+      const blog1 = {
+        title: 'Blog 1',
+        author: 'autor 1',
+        url: '/autor-blog'
+      }
+      const blog2 = {
+        title: 'Blog 2',
+        author: 'autor 1',
+        url: '/autor-blog'
+      }
+
+      await createBlog(page, blog1.title, blog1.author, blog1.url)
+      await expect(page.getByText('A new blog Blog 1')).toBeVisible()
+
+      await createBlog(page, blog2.title, blog2.author, blog2.url)
+      await expect(page.getByText('A new blog Blog 2')).toBeVisible()
+
+      const blog2Div = page.locator('div').filter({ hasText: /^Blog 2 - autor 1 show$/ }).first()
+      await blog2Div.getByRole('button', { name: 'show' }).click()
+      await page.getByRole('button', { name: 'Like' }).click()
+      await expect(page.getByTitle('NLikes')).toHaveText('1')
+      await page.getByRole('button', { name: 'hide' }).click()
+      //Get all blog list
+      const blogList = await page.locator('.blog').allInnerTexts()
+      let isTrue = false
+      //Verify if first blog is the blog liked before
+      if (blogList[0] === 'Blog 2 - autor 1 show') {
+        isTrue = true
+      }
+      expect(isTrue).toBe(true)
+    })
   })
+
+
 
 })

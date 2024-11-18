@@ -120,17 +120,19 @@ const App = () => {
       <Notifications message={message} />
       <div>
         <h2>blogs</h2>
-        {blogs
-          .sort((a, b) => b.likes - a.likes)//Enumera las publicaciones de blog por el número de likes
-          .map(blog =>
-            <Blog
-              key={blog.id}
-              blog={blog}
-              updateLikes={updateLikes}
-              username={user?.username || ''}
-              deleteBlogs={deleteBlogs}
-            />
-          )}
+        <div className='blog-list'>
+          {blogs
+            .sort((a, b) => b.likes - a.likes)//Enumera las publicaciones de blog por el número de likes
+            .map(blog =>
+              <Blog
+                key={blog.id}
+                blog={blog}
+                updateLikes={updateLikes}
+                username={user?.username || ''}
+                deleteBlogs={deleteBlogs}
+              />
+            )}
+        </div>
 
       </div>
     </div>
